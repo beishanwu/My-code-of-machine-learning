@@ -1,5 +1,5 @@
 %% Machine Learning Online Class - Exercise 3 | Part 2: Neural Networks
-
+%喻雷神经网络学习文件
 %  Instructions
 %  ------------
 % 
@@ -28,7 +28,7 @@ num_labels = 10;          % 10 labels, from 1 to 10
 %% =========== Part 1: Loading and Visualizing Data =============
 %  We start the exercise by first loading and visualizing the dataset. 
 %  You will be working with a dataset that contains handwritten digits.
-%
+%这部分与Part1是一样的
 
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
@@ -52,13 +52,14 @@ pause;
 fprintf('\nLoading Saved Neural Network Parameters ...\n')
 
 % Load the weights into variables Theta1 and Theta2
-load('ex3weights.mat');
+load('ex3weights.mat');%会自动给Theta1, Theta2赋值，也不需要定义
 
 %% ================= Part 3: Implement Predict =================
 %  After training the neural network, we would like to use it to predict
 %  the labels. You will now implement the "predict" function to use the
 %  neural network to predict the labels of the training set. This lets
 %  you compute the training set accuracy.
+%因为使用的时训练好的参数，因此没有训练过程，直接到了预测
 
 pred = predict(Theta1, Theta2, X);
 
@@ -76,10 +77,10 @@ rp = randperm(m);
 for i = 1:m
     % Display 
     fprintf('\nDisplaying Example Image\n');
-    displayData(X(rp(i), :));
+    displayData(X(rp(i), :));%随机取了一个图像
 
     pred = predict(Theta1, Theta2, X(rp(i),:));
-    fprintf('\nNeural Network Prediction: %d (digit %d)\n', pred, mod(pred, 10));
+    fprintf('\nNeural Network Prediction: %d (digit %d)\n', pred, mod(pred, 10));%mod(pred, 10)这部分是处理10到0的操作
     
     % Pause
     fprintf('Program paused. Press enter to continue.\n');

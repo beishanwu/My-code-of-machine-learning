@@ -65,7 +65,7 @@ X = [ones(m, 1) X];%m*n+1
 % Initialize fitting parameters
 % 与上面添加一列是同一个原因
 % 定义初始化的theate，全为0
-initial_theta = zeros(n + 1, 1);%n+1*1
+initial_theta = zeros(n + 1, 1);%n+1*1，初始值设置为0
 
 % Compute and display initial cost and gradient
 [cost, grad] = costFunction(initial_theta, X, y);

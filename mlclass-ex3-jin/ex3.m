@@ -1,5 +1,5 @@
 %% Machine Learning Online Class - Exercise 3 | Part 1: One-vs-all
-
+%这是喻雷的学习版文件
 %  Instructions
 %  ------------
 % 
@@ -31,14 +31,15 @@ num_labels = 10;          % 10 labels, from 1 to 10
 
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
-
+%是比较方便的格式可以直接load
 load('ex3data1.mat'); % training data stored in arrays X, y
-m = size(X, 1);
+m = size(X, 1);%获取行数，这里应该是5000
 
 % Randomly select 100 data points to display
+%******很好的方法
 rand_indices = randperm(m);     % change the order -jin
 sel = X(rand_indices(1:100), :);
-
+%显示100幅图像，图像之间是有黑线分割的
 displayData(sel);
 
 fprintf('Program paused. Press enter to continue.\n');
@@ -55,7 +56,7 @@ pause;
 fprintf('\nTraining One-vs-All Logistic Regression...\n')
 
 lambda = 0.1;
-[all_theta] = oneVsAll(X, y, num_labels, lambda);
+[all_theta] = oneVsAll(X, y, num_labels, lambda);%不知道什么原因，这个过程中会把迭代过程输出，可能是这个函数本身的特性
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -66,4 +67,4 @@ pause;
 pred = predictOneVsAll(all_theta, X);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
-
+%到此这个版本的学习结束

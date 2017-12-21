@@ -1,5 +1,11 @@
 %% Machine Learning Online Class - Exercise 2: Logistic Regression
-%
+%这是带有正则化的
+%单就与第一部分那个没有正则化的比较
+%首先改变的是X，X的列扩展了，从而theater的维度也相应扩展，但是y是不变的
+%程序上，代价函数要变，绘图函数要变
+%其他部分其实再就没有大的变化了
+%本质的思想是没有改变的
+%而与多分类是完全不同的
 %  Instructions
 %  ------------
 % 
@@ -55,12 +61,14 @@ hold off;
 %也增加了一列1
 % Note that mapFeature also adds a column of ones for us, so the intercept
 % term is handled
+%生成多维度特征
 X = mapFeature(X(:,1), X(:,2));
 
 % Initialize fitting parameters
 initial_theta = zeros(size(X, 2), 1);%考虑了theta0的
 
 % Set regularization parameter lambda to 1
+%正则化参数
 lambda = 1;
 
 % Compute and display initial cost and gradient for regularized logistic

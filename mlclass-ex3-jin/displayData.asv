@@ -34,7 +34,7 @@ display_array = - ones(pad + display_rows * (example_height + pad), ...
 curr_ex = 1;
 for j = 1:display_rows
 	for i = 1:display_cols
-		if curr_ex > m, %这是在内存循环中
+		if curr_ex > m, 
 			break; 
 		end
 		% Copy the patch
@@ -43,20 +43,20 @@ for j = 1:display_rows
 		max_val = max(abs(X(curr_ex, :)));
 		display_array(pad + (j - 1) * (example_height + pad) + (1:example_height), ...
 		              pad + (i - 1) * (example_width + pad) + (1:example_width)) = ...
-						reshape(X(curr_ex, :), example_height, example_width) / max_val;%是进行了归一化的，在每一个图像内部归一化
+						reshape(X(curr_ex, :), example_height, example_width) / max_val;%
 		curr_ex = curr_ex + 1;
 	end
-	if curr_ex > m, %这是在外层循环中，因为break一次不能跳出两层循环
+	if curr_ex > m, 
 		break; 
 	end
 end
 
 % Display Image
-h = imagesc(display_array, [-1 1]);%在-1到1的尺度内显示
+h = imagesc(display_array, [-1 1]);
 
 % Do not show axis
 axis image off
 
-drawnow;%更新图形窗口和执行挂起的回调 
+drawnow;
 
 end

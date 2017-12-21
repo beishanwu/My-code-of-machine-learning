@@ -7,7 +7,7 @@ function plotDecisionBoundary(theta, X, y)
 %   1) Mx3 matrix, where the first column is an all-ones column for the 
 %      intercept.
 %   2) MxN, N>3 matrix, where the first column is all-ones
-
+%两个是公用了一个函数的
 % Plot Data
 % 首先描绘出原始数据
 plotData(X(:,2:3), y);

@@ -21,7 +21,7 @@ function [X, fX, i] = fmincg(f, X, options, P1, P2, P3, P4, P5)
 % solution "X", a vector of function values "fX" indicating the progress made
 % and "i" the number of iterations (line searches or function evaluations,
 % depending on the sign of "length") used.
-%
+% 这个函数中会有输出中间过程
 % Usage: [X, fX, i] = fmincg(f, X, options, P1, P2, P3, P4, P5)
 %
 % See also: checkgrad 

@@ -1,5 +1,6 @@
 %% Machine Learning Online Class - Exercise 4 Neural Network Learning
-
+%喻雷神经网络反向传播算法学习
+% 基本完成，部分有待深入
 %  Instructions
 %  ------------
 % 
@@ -28,7 +29,7 @@ num_labels = 10;          % 10 labels, from 1 to 10
 %  We start the exercise by first loading and visualizing the dataset. 
 %  You will be working with a dataset that contains handwritten digits.
 %
-
+%这部分与实验三神经网络是一样的
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
 
@@ -48,13 +49,14 @@ pause;
 %% ================ Part 2: Loading Parameters ================
 % In this part of the exercise, we load some pre-initialized 
 % neural network parameters.
-
+%这部分与实验三也是一样的
 fprintf('\nLoading Saved Neural Network Parameters ...\n')
 
 % Load the weights into variables Theta1 and Theta2
 load('ex4weights.mat');
 
 % Unroll parameters 
+%这里好像将所有的Theta参数展开了
 nn_params = [Theta1(:) ; Theta2(:)];
 
 %% ================ Part 3: Compute Cost (Feedforward) ================
@@ -64,19 +66,21 @@ nn_params = [Theta1(:) ; Theta2(:)];
 %  implementing the feedforward to compute the cost, you can verify that
 %  your implementation is correct by verifying that you get the same cost
 %  as us for the fixed debugging parameters.
+%  这里是将计算了结果与一个已知值比较 从而判断我的代价函数是否正确
 %
 %  We suggest implementing the feedforward cost *without* regularization
 %  first so that it will be easier for you to debug. Later, in part 4, you
 %  will get to implement the regularized cost.
-%
+% 首先是推荐使用非正则化的，这样好判断结果的正误
 fprintf('\nFeedforward Using Neural Network ...\n')
 
 % Weight regularization parameter (we set this to 0 here).
+%设置为这个值就相当于取消正则化了
 lambda = 0;
-
+% 在nnCostFunction中是同时计算了梯度的（偏导数），但是这里没有返回这个结果，暂时还用不到
 J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
                    num_labels, X, y, lambda);
-
+% 这是非正则化的结果
 fprintf(['Cost at parameters (loaded from ex4weights): %f '...
          '\n(this value should be about 0.287629)\n'], J);
 
@@ -91,11 +95,12 @@ pause;
 fprintf('\nChecking Cost Function (w/ Regularization) ... \n')
 
 % Weight regularization parameter (we set this to 1 here).
+% 设置这个值开启正则化
 lambda = 1;
 
 J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
                    num_labels, X, y, lambda);
-
+%这是进行了正则化的
 fprintf(['Cost at parameters (loaded from ex4weights): %f '...
          '\n(this value should be about 0.383770)\n'], J);
 
@@ -107,7 +112,7 @@ pause;
 %  Before you start implementing the neural network, you will first
 %  implement the gradient for the sigmoid function. You should complete the
 %  code in the sigmoidGradient.m file.
-%
+% 首先就是这个，从简单的入手并需要验证正确性
 
 fprintf('\nEvaluating sigmoid gradient...\n')
 
@@ -132,6 +137,8 @@ initial_Theta1 = randInitializeWeights(input_layer_size, hidden_layer_size);
 initial_Theta2 = randInitializeWeights(hidden_layer_size, num_labels);
 
 % Unroll parameters
+% 展开为向量
+% 注意一下这个格式
 initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 
 
@@ -144,6 +151,9 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 fprintf('\nChecking Backpropagation... \n');
 
 %  Check gradients by running checkNNGradients
+% 这个程序对梯度部分进行了整体测试
+% 根据输入可以知道，这部分是采用的非正则化的
+% 这个程序中有一些输出语句
 checkNNGradients;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
@@ -158,10 +168,12 @@ pause;
 fprintf('\nChecking Backpropagation (w/ Regularization) ... \n')
 
 %  Check gradients by running checkNNGradients
+% 同样是梯度测试，因为前面已经验证了非正则，这里就可以开始正则，得遵守这个流程
 lambda = 3;
 checkNNGradients(lambda);
 
 % Also output the costFunction debugging values
+% 对我们的实际网络进行了一次代价函数计算，并判断是否正确
 debug_J  = nnCostFunction(nn_params, input_layer_size, ...
                           hidden_layer_size, num_labels, X, y, lambda);
 
@@ -178,7 +190,7 @@ pause;
 %  is a function which works similarly to "fminunc". Recall that these
 %  advanced optimizers are able to train our cost functions efficiently as
 %  long as we provide them with the gradient computations.
-%
+% 使用专用最优化算法
 fprintf('\nTraining Neural Network... \n')
 
 %  After you have completed the assignment, change the MaxIter to a larger
@@ -188,7 +200,7 @@ options = optimset('MaxIter', 50);
 %  You should also try different values of lambda
 lambda = 1;
 
-% Create "short hand" for the cost function to be minimized
+% Create "short hand" for the cost function to be minimized函数句柄
 costFunction = @(p) nnCostFunction(p, ...
                                    input_layer_size, ...
                                    hidden_layer_size, ...
@@ -196,9 +208,11 @@ costFunction = @(p) nnCostFunction(p, ...
 
 % Now, costFunction is a function that takes in only one argument (the
 % neural network parameters)
+% 调用优化函数
 [nn_params, cost] = fmincg(costFunction, initial_nn_params, options);
 
 % Obtain Theta1 and Theta2 back from nn_params
+% 从nn_params拆分出Theta1 and Theta2
 Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
                  hidden_layer_size, (input_layer_size + 1));
 
@@ -212,11 +226,11 @@ pause;
 %% ================= Part 9: Visualize Weights =================
 %  You can now "visualize" what the neural network is learning by 
 %  displaying the hidden units to see what features they are capturing in 
-%  the data.
+%  the data.隐藏单元
 
 fprintf('\nVisualizing Neural Network... \n')
 
-displayData(Theta1(:, 2:end));
+displayData(Theta1(:, 2:end));%一行做为一幅图像展示，展示的是5*5的图
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;

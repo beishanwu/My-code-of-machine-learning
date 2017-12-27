@@ -1,6 +1,7 @@
 %% Machine Learning Online Class - Exercise 4 Neural Network Learning
 %喻雷神经网络反向传播算法学习
 % 基本完成，部分有待深入
+% 全部完成
 %  Instructions
 %  ------------
 % 
@@ -139,6 +140,7 @@ initial_Theta2 = randInitializeWeights(hidden_layer_size, num_labels);
 % Unroll parameters
 % 展开为向量
 % 注意一下这个格式
+% 行叠加，连成了一个列向量
 initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 
 

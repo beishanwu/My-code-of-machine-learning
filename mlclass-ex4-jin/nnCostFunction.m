@@ -76,7 +76,7 @@ Y=[];
 E = eye(num_labels);    % 要满足K可以是任意，则不能写eye(10)！！
 for i=1:num_labels
     Y0 = find(y==i);    % 找到等于y=i的序列号,替换向量
-    Y(Y0,:) = repmat(E(i,:),size(Y0,1),1);%Y 的维度是5000*10，从结果来看我是完全能够理解的，但是这句代码的实现原理我非常不理解？？？
+    Y(Y0,:) = repmat(E(i,:),size(Y0,1),1);%Y 的维度是5000*10，从结果来看我是完全能够理解的，但是这句代码的实现原理我非常不理解？？？理解已经写在了MATLAB学习笔记上去了。
     %这么做的原因是原始y直接标记结果的，而我们过渡值需要的是对于到每个输出单元的结果，并且需要是逻辑值
 end
 
@@ -134,7 +134,7 @@ for t = 1:m
    % step 3 计算δ2
    err_2 = Theta2' * err_3;                % err_2有26行！！！这个地方要特别注意
    err_2 = err_2(2:end) .* sigmoidGradient(z_2);   % 去掉第一个误差值，减少为25. sigmoidGradient(z_2)只有25行！！！
-   % step 4 累计梯度
+   % step 4 累计误差（因为是多测试样例数据，所以需要采用这种形式）
    delta_2 = delta_2 + err_3 * a_2';
    delta_1 = delta_1 + err_2 * a_1';
 end
@@ -142,6 +142,7 @@ end
 % step 5    计算偏导数（这个是带正则化的）
 Theta1_temp = [zeros(size(Theta1,1),1) Theta1(:,2:end)];%将第一列设置为0，因为正则化时j不能为0
 Theta2_temp = [zeros(size(Theta2,1),1) Theta2(:,2:end)];
+% 这里计算了两个梯度，原则是有多少Theta就有多少grad，这也是偏导数的意义。
 Theta1_grad = 1 / m * delta_1 + lambda/m * Theta1_temp;
 Theta2_grad = 1 / m * delta_2 + lambda/m * Theta2_temp ;
       
@@ -154,3 +155,6 @@ grad = [Theta1_grad(:) ; Theta2_grad(:)];%合并输出
 
 
 end
+% 对此总程序来说，是存在部份冗余的
+% 主要是在计算J时进行了一次的前向传播算法，在计算梯度时又进行了一次的前向传播算法，但两者的策略是有些不同的
+% 在数据量较大时，自然是可以考虑这个的。

@@ -5,6 +5,7 @@ function g = sigmoidGradient(z)
 %   evaluated at z. This should work regardless if z is a matrix or a
 %   vector. In particular, if z is a vector or matrix, you should return
 %   the gradient for each element.
+% 在反向传播算法计算 step 3 计算δ2时需要这个函数
 
 g = zeros(size(z));
 

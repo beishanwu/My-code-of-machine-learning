@@ -17,7 +17,7 @@ W = zeros(fan_out, 1 + fan_in);
 % Initialize W using "sin", this ensures that W is always of the same
 % values and will be useful for debugging
 % 使用sin的想法是保证每次产生的值都是一样的，便于测试比较
-W = reshape(sin(1:numel(W)), size(W)) / 10;%这个地方得在看看reshape的使用方法
+W = reshape(sin(1:numel(W)), size(W)) / 10;%这个地方得在看看reshape的使用方法，细看一下，这个很好理解
 
 % =========================================================================
 

@@ -26,7 +26,7 @@ Theta1 = debugInitializeWeights(hidden_layer_size, input_layer_size);
 Theta2 = debugInitializeWeights(num_labels, hidden_layer_size);
 % Reusing debugInitializeWeights to generate X
 X  = debugInitializeWeights(m, input_layer_size - 1);
-y  = 1 + mod(1:m, num_labels)';
+y  = 1 + mod(1:m, num_labels)';%mod是取余函数，另外从实际效果上来说，1 + mod(1:5, num_labels)正好产生的是1到num_labels的值，正好完成了标签赋值的任务。
 
 % Unroll parameters
 nn_params = [Theta1(:) ; Theta2(:)];

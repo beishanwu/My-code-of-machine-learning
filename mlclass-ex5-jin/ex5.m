@@ -1,6 +1,7 @@
 %% Machine Learning Online Class
 %  Exercise 5 | Regularized Linear Regression and Bias-Variance
-%
+% 喻雷机器学习
+% 已经全部完成了
 %  Instructions
 %  ------------
 % 
@@ -46,7 +47,7 @@ pause;
 %  You should now implement the cost function for regularized linear 
 %  regression. 
 %
-
+% 这里输入的lambda=1
 theta = [1 ; 1];
 J = linearRegCostFunction([ones(m, 1) X], y, theta, 1);
 
@@ -60,7 +61,7 @@ pause;
 %  You should now implement the gradient for regularized linear 
 %  regression.
 %
-
+% 这里设置了lambta=1
 theta = [1 ; 1];
 [J, grad] = linearRegCostFunction([ones(m, 1) X], y, theta, 1);
 
@@ -82,6 +83,7 @@ pause;
 %
 
 %  Train linear regression with lambda = 0
+% 因为对于二维的，正则化没有效果
 lambda = 0;
 [theta] = trainLinearReg([ones(m, 1) X], y, lambda);
 
@@ -90,6 +92,7 @@ plot(X, y, 'rx', 'MarkerSize', 10, 'LineWidth', 1.5);
 xlabel('Change in water level (x)');
 ylabel('Water flowing out of the dam (y)');
 hold on;
+% 这里是画线
 plot(X, [ones(m, 1) X]*theta, '--', 'LineWidth', 2)
 hold off;
 
@@ -103,13 +106,13 @@ pause;
 %  Write Up Note: Since the model is underfitting the data, we expect to
 %                 see a graph with "high bias" -- slide 8 in ML-advice.pdf 
 %
-
+% 不进行正则化
 lambda = 0;
 [error_train, error_val] = ...
     learningCurve([ones(m, 1) X], y, ...
                   [ones(size(Xval, 1), 1) Xval], yval, ...
                   lambda);
-
+% 画图
 plot(1:m, error_train, 1:m, error_val);
 title('Learning curve for linear regression')
 legend('Train', 'Cross Validation')
@@ -129,7 +132,7 @@ pause;
 %  One solution to this is to use polynomial regression. You should now
 %  complete polyFeatures to map each example into its powers
 %
-
+% 扩展到8次方
 p = 8;
 
 % Map X onto Polynomial Features and Normalize
@@ -138,6 +141,8 @@ X_poly = polyFeatures(X, p);
 X_poly = [ones(m, 1), X_poly];                   % Add Ones
 
 % Map X_poly_test and normalize (using mu and sigma)
+% 下面使用的mu和sigma就是直接上面计算得到的，这样可以保证标志的统一
+% 注意Y是不用改变的
 X_poly_test = polyFeatures(Xtest, p);
 X_poly_test = bsxfun(@minus, X_poly_test, mu);
 X_poly_test = bsxfun(@rdivide, X_poly_test, sigma);
@@ -150,7 +155,7 @@ X_poly_val = bsxfun(@rdivide, X_poly_val, sigma);
 X_poly_val = [ones(size(X_poly_val, 1), 1), X_poly_val];           % Add Ones
 
 fprintf('Normalized Training Example 1:\n');
-fprintf('  %f  \n', X_poly(1, :));
+fprintf('  %f  \n', X_poly(1, :));%这里把第一行显示了一下,参数可以一对多
 
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
@@ -163,13 +168,15 @@ pause;
 %  lambda = 0. You should try running the code with different values of
 %  lambda to see how the fit and learning curve change.
 %
-
+% 这里直接使用线性回归的函数和方法
 lambda = 0;
 [theta] = trainLinearReg(X_poly, y, lambda);
 
 % Plot training data and fit
 figure(1);
 plot(X, y, 'rx', 'MarkerSize', 10, 'LineWidth', 1.5);
+% 这个是描绘了拟合线，这里要再深入一下
+% 这里是一个自编函数
 plotFit(min(X), max(X), mu, sigma, theta, p);
 xlabel('Change in water level (x)');
 ylabel('Water flowing out of the dam (y)');
@@ -200,7 +207,7 @@ pause;
 %  lambda on a validation set. You will then use this to select the
 %  "best" lambda value.
 %
-
+% 这一部分是对不同的lambda进行测试
 [lambda_vec, error_train, error_val] = ...
     validationCurve(X_poly, y, X_poly_val, yval);
 
@@ -222,6 +229,7 @@ pause;
 %% =========== Part 9: Computing test set error and Plotting learning curves with randomly selected examples=============
 
 % Map X_poly_test and normalize (using mu and sigma)
+% 这部分前面其实已经操作过了
 X_poly_test = polyFeatures(Xtest, p);
 X_poly_test = bsxfun(@minus, X_poly_test, mu);
 X_poly_test = bsxfun(@rdivide, X_poly_test, sigma);

@@ -10,6 +10,7 @@ function [lambda_vec, error_train, error_val] = ...
 %
 
 % Selected values of lambda (you should not change this)
+% lambda测试集
 lambda_vec = [0 0.001 0.003 0.01 0.03 0.1 0.3 1 3 10]';
 
 % You need to return these variables correctly.
@@ -44,7 +45,9 @@ for i = 1:length(lambda_vec)
       lambda = lambda_vec(i);
       theta = trainLinearReg(X, y,lambda);  % 用训练集训练出参数
       error_train(i) = linearRegCostFunction(X, y,theta,0);
-      error_val(i) = linearRegCostFunction(Xval, yval,theta,0);           
+      error_val(i) = linearRegCostFunction(Xval, yval,theta,0);
+%       这里有一点要特别注意，训练时，是使用了lambda，而在计算error时，统一没有使用lambda
+%       更为具体的说明我写在了机器学习笔记上面了
 end
 
 

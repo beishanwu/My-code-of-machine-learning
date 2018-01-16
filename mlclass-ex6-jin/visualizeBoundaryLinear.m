@@ -3,7 +3,7 @@ function visualizeBoundaryLinear(X, y, model)
 %SVM
 %   VISUALIZEBOUNDARYLINEAR(X, y, model) plots a linear decision boundary 
 %   learned by the SVM and overlays the data on it
-
+% 这个是用来画线性边界的
 w = model.w;
 b = model.b;
 xp = linspace(min(X(:,1)), max(X(:,1)), 100);

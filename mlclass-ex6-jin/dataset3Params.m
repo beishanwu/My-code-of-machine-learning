@@ -5,7 +5,7 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 %   [C, sigma] = EX6PARAMS(X, y, Xval, yval) returns your choice of C and 
 %   sigma. You should complete this function to return the optimal C and 
 %   sigma based on a cross-validation set.
-%
+%   通过这个函数返回最佳C和sigma
 
 % You need to return the following variables correctly.
 C = 1;
@@ -22,23 +22,24 @@ sigma = 0.3;
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
-
+%  可选参数列表
 C_vec = [0.01 0.03 0.1 0.3 1 3 10 30]';
 sigma_vec = [0.01 0.03 0.1 0.3 1 3 10 30]';
+
 error_val = zeros(length(C_vec),length(sigma_vec));
 error_train = zeros(length(C_vec),length(sigma_vec));
 for i = 1:length(C_vec)
-    for j = 1:length(sigma_vec)
-      model= svmTrain(X, y, C_vec(i), @(x1, x2) gaussianKernel(x1, x2, sigma_vec(j))); 
-      predictions = svmPredict(model, Xval);
-      error_val(i,j) = mean(double(predictions ~= yval));
+    for j = 1:length(sigma_vec)%两层遍历
+      model= svmTrain(X, y, C_vec(i), @(x1, x2) gaussianKernel(x1, x2, sigma_vec(j)));%先训练出模型 
+      predictions = svmPredict(model, Xval);%使用训练得到的模型预测
+      error_val(i,j) = mean(double(predictions ~= yval));%计算错误率
     end
 end
 
 % figure
 % error_val
 % surf(C_vec,sigma_vec,error_val)   % 画出三维图找最低点
-
+% 根据计算结果挑选出最佳的参数
 [minval,ind] = min(error_val(:));   % 0.03
 [I,J] = ind2sub([size(error_val,1) size(error_val,2)],ind);
 C = C_vec(I)         %   1

@@ -2,7 +2,8 @@ function pred = svmPredict(model, X)
 %SVMPREDICT returns a vector of predictions using a trained SVM model
 %(svmTrain). 
 %   pred = SVMPREDICT(model, X) returns a vector of predictions using a 
-%   trained SVM model (svmTrain). X is a mxn matrix where there each 
+%   trained SVM model (svmTrain). X is a mxn matrix where there each
+%                                        M*N
 %   example is a row. model is a svm model returned from svmTrain.
 %   predictions pred is a m x 1 column of predictions of {0, 1} values.
 %

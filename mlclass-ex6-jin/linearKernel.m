@@ -7,6 +7,7 @@ function sim = linearKernel(x1, x2)
 x1 = x1(:); x2 = x2(:);
 
 % Compute the kernel
+% 线性时直接就是两个的点积
 sim = x1' * x2;  % dot product
 
 end

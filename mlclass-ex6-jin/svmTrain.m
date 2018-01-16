@@ -10,6 +10,8 @@ function [model] = svmTrain(X, Y, C, kernelFunction, ...
 %   parameter.  tol is a tolerance value used for determining equality of 
 %   floating point numbers. max_passes controls the number of iterations
 %   over the dataset (without changes to alpha) before the algorithm quits.
+% tol是tolerance
+% max_passes是iterations
 %
 % Note: This is a simplified version of the SMO algorithm for training
 %       SVMs. In practice, if you want to train an SVM classifier, we
@@ -18,8 +20,9 @@ function [model] = svmTrain(X, Y, C, kernelFunction, ...
 %           LIBSVM   (http://www.csie.ntu.edu.tw/~cjlin/libsvm/)
 %           SVMLight (http://svmlight.joachims.org/)
 %
-%
+ %这里使用了SMO算法
 
+%  这里定义了一些默认值
 if ~exist('tol', 'var') || isempty(tol)
     tol = 1e-3;
 end
@@ -29,11 +32,11 @@ if ~exist('max_passes', 'var') || isempty(max_passes)
 end
 
 % Data parameters
-m = size(X, 1);
-n = size(X, 2);
+m = size(X, 1);%example数
+n = size(X, 2);%特征数
 
 % Map 0 to -1
-Y(Y==0) = -1;
+Y(Y==0) = -1;%将标签值为0的数设置为标签值为-1
 
 % Variables
 alphas = zeros(m, 1);
@@ -47,9 +50,10 @@ H = 0;
 % Pre-compute the Kernel Matrix since our dataset is small
 % (in practice, optimized SVM packages that handle large datasets
 %  gracefully will _not_ do this)
-% 
+% 因为这个dataset很小，所以可以预先计算核矩阵
 % We have implemented optimized vectorized version of the Kernels here so
 % that the svm training will run faster.
+% 通过识别字符串内容选定工作模式
 if strcmp(func2str(kernelFunction), 'linearKernel')
     % Vectorized computation for the Linear Kernel
     % This is equivalent to computing the kernel on every pair of examples
@@ -63,6 +67,7 @@ elseif strfind(func2str(kernelFunction), 'gaussianKernel')
 else
     % Pre-compute the Kernel Matrix
     % The following can be slow due to the lack of vectorization
+    % 因为没有向量化，所以会比较慢
     K = zeros(m);
     for i = 1:m
         for j = i:m
@@ -73,6 +78,8 @@ else
 end
 
 % Train
+% 下面是训练
+% 无论采用什么核，这里都是要训练的
 fprintf('\nTraining ...');
 dots = 12;
 while passes < max_passes,
@@ -181,6 +188,7 @@ end
 fprintf(' Done! \n\n');
 
 % Save the model
+% model的这个结构很奇怪，我没见过
 idx = alphas > 0;
 model.X= X(idx,:);
 model.y= Y(idx);

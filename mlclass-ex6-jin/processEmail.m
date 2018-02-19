@@ -7,9 +7,11 @@ function word_indices = processEmail(email_contents)
 %
 
 % Load Vocabulary
+% vocabList是一个元胞数组
 vocabList = getVocabList();
 
 % Init return value
+% 定义了一个空数组
 word_indices = [];
 
 % ========================== Preprocess Email ===========================
@@ -22,6 +24,7 @@ word_indices = [];
 % email_contents = email_contents(hdrstart(1):end);
 
 % Lower case
+% 全部小写
 email_contents = lower(email_contents);
 
 % Strip all HTML
@@ -47,7 +50,7 @@ email_contents = regexprep(email_contents, '[$]+', 'dollar');
 
 
 % ========================== Tokenize Email ===========================
-
+% 符号化字符串
 % Output the email to screen as well
 fprintf('\n==== Processed Email ====\n\n');
 
@@ -56,12 +59,12 @@ l = 0;
 
 while ~isempty(email_contents)
 
-    % Tokenize and also get rid of any punctuation
+    % Tokenize and also get rid of any punctuation标记并摆脱任何标点符号
     [str, email_contents] = ...
        strtok(email_contents, ...
               [' @$/#.-:&*+=[]?!(){},''">_<;%' char(10) char(13)]);
    
-    % Remove any non alphanumeric characters
+    % Remove any non alphanumeric characters删除任何非字母数字字符 
     str = regexprep(str, '[^a-zA-Z0-9]', '');
 
     % Stem the word 
@@ -96,10 +99,10 @@ while ~isempty(email_contents)
     % Note: You can use strcmp(str1, str2) to compare two strings (str1 and
     %       str2). It will return 1 only if the two strings are equivalent.
     %
-    
+    %这里任然处在while的大循环下，对内容进行遍历
     for i=1:length(vocabList)
         if( strcmp(vocabList{i}, str) )
-          word_indices = [word_indices;i];
+          word_indices = [word_indices;i];%将i这个序号添加到数组中，行添加的方式
         end
     end
 
@@ -107,6 +110,7 @@ while ~isempty(email_contents)
 
 
     % Print to screen, ensuring that the output lines are not too long
+    %邮件内容控制输出
     if (l + length(str) + 1) > 78
         fprintf('\n');
         l = 0;
@@ -118,5 +122,6 @@ end
 
 % Print footer
 fprintf('\n\n=========================\n');
+% 从整个程序看来，这个代码将邮件内容进行一些处理后，通过查找单词列表，将出现的单词用单词列表中的序号进行替换
 
 end

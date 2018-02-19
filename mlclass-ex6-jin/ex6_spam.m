@@ -1,6 +1,12 @@
 %% Machine Learning Online Class
 %  Exercise 6 | Spam Classification with SVMs
-%
+% 垃圾邮件SVM分类学习
+% 使用SVM进行垃圾邮件分类这部分我已经全部看完了
+% 其实这部分对于SVM的说明比较少了，着重与对垃圾邮件这个实际问题的建模处理
+% 在SVM部分，使用自带训练函数进行训练，内部我无从知晓。但是确实这里SVM使用的是线性核，而不是高斯核。这一点我不是特别明白
+% 可能是吴恩达教程中说的，对于特征非常多的情况，推荐使用线性核。
+% 然后C=0.1，这里没有做更改，今后有条件可以试试其他的参数
+% 对于这个垃圾邮件分类，使用的单词列表规模是1899个，这个应该是一个入门级的单词量，有条件可以试试其他的。
 %  Instructions
 %  ------------
 % 
@@ -25,7 +31,7 @@ clear ; close all; clc
 %  implement the preprocessing steps for each email. You should
 %  complete the code in processEmail.m to produce a word indices vector
 %  for a given email.
-
+% 邮件内容预处理
 fprintf('\nPreprocessing sample email (emailSample1.txt)\n');
 
 % Extract Features
@@ -51,6 +57,7 @@ fprintf('\nExtracting features from sample email (emailSample1.txt)\n');
 file_contents = readFile('emailSample1.txt');
 word_indices  = processEmail(file_contents);
 features      = emailFeatures(word_indices);
+% features是一个1899*1的数组
 
 % Print Stats
 fprintf('Length of feature vector: %d\n', length(features));
@@ -65,6 +72,8 @@ pause;
 
 % Load the Spam Email dataset
 % You will have X, y in your environment
+% 加载训练集
+% 使用SVM进行训练，并计算准确率
 load('spamTrain.mat');
 
 fprintf('\nTraining Linear SVM (Spam Classification)\n')
@@ -74,7 +83,7 @@ C = 0.1;
 model = svmTrain(X, y, C, @linearKernel);
 
 p = svmPredict(model, X);
-
+% 这里计算的准确率是非常不标准的
 fprintf('Training Accuracy: %f\n', mean(double(p == y)) * 100);
 
 %% =================== Part 4: Test Spam Classification ================
@@ -88,7 +97,7 @@ load('spamTest.mat');
 fprintf('\nEvaluating the trained Linear SVM on a test set ...\n')
 
 p = svmPredict(model, Xtest);
-
+% 这个准确率比较可信
 fprintf('Test Accuracy: %f\n', mean(double(p == ytest)) * 100);
 pause;
 
@@ -100,13 +109,13 @@ pause;
 %  the highest weights in the classifier. Informally, the classifier
 %  'thinks' that these words are the most likely indicators of spam.
 %
-
+% 显示每个单词在决定邮件分类时的权重
 % Sort the weights and obtin the vocabulary list
 [weight, idx] = sort(model.w, 'descend');
 vocabList = getVocabList();
 
 fprintf('\nTop predictors of spam: \n');
-for i = 1:15
+for i = 1:15%输出最高权重的15个
     fprintf(' %-15s (%f) \n', vocabList{idx(i)}, weight(i));
 end
 
@@ -125,7 +134,8 @@ pause;
 % Set the file to be read in (change this to spamSample2.txt,
 % emailSample1.txt or emailSample2.txt to see different predictions on
 % different emails types). Try your own emails as well!
-filename = 'spamSample2.txt';
+% 使用任意邮件进行测试
+filename = 'emailSample2.txt';
 
 % Read and predict
 file_contents = readFile(filename);

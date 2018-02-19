@@ -3,7 +3,7 @@ function file_contents = readFile(filename)
 %   file_contents = READFILE(filename) reads a file and returns its entire
 %   contents in file_contents
 %
-
+% file_contents是提取出的内容
 % Load File
 fid = fopen(filename);
 if fid

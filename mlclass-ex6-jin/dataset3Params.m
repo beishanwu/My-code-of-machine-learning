@@ -6,6 +6,7 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 %   sigma. You should complete this function to return the optimal C and 
 %   sigma based on a cross-validation set.
 %   通过这个函数返回最佳C和sigma
+%  这个程序算是这里面的重点
 
 % You need to return the following variables correctly.
 C = 1;

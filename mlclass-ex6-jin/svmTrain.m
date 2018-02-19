@@ -190,7 +190,7 @@ fprintf(' Done! \n\n');
 % Save the model
 % model的这个结构很奇怪，我没见过
 idx = alphas > 0;
-model.X= X(idx,:);
+model.X= X(idx,:);  
 model.y= Y(idx);
 model.kernelFunction = kernelFunction;
 model.b= b;

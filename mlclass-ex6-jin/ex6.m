@@ -53,6 +53,7 @@ fprintf('\nTraining Linear SVM ...\n')
 % You should try to change the C value below and see how the decision
 % boundary varies (e.g., try C = 1000)
 % 可以改变C来试试效果
+% @linearKernel是一个函数句柄
 C = 1;
 model = svmTrain(X, y, C, @linearKernel, 1e-3, 20);
 visualizeBoundaryLinear(X, y, model);
@@ -65,7 +66,7 @@ pause;
 %  with the SVM. You should complete the code in gaussianKernel.m
 %
 fprintf('\nEvaluating the Gaussian Kernel ...\n')
-
+% 这里进行测试
 x1 = [1 2 1]; x2 = [0 4 -1]; sigma = 2;
 sim = gaussianKernel(x1, x2, sigma);
 

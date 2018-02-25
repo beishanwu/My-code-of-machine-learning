@@ -6,6 +6,7 @@ function idx = findClosestCentroids(X, centroids)
 %
 
 % Set K
+% 读取聚类数
 K = size(centroids, 1);
 
 % You need to return the following variables correctly.
@@ -20,7 +21,8 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
+% 这里使用的是FOR循环方式，对所有的example进行遍历
+% 使用的pdist2（）函数，然后找最小值，最后返回的是顺序索引
 for i=1:length(idx)
     distanse = pdist2(centroids,X(i,:));   % compute the distance(K,1)   pdist2 is a good function  
        [C,idx(i)]=min(distanse);           % find the minimum

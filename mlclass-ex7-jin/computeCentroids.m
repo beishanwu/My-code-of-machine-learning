@@ -14,7 +14,7 @@ function centroids = computeCentroids(X, idx, K)
 [m n] = size(X);
 
 % You need to return the following variables correctly.
-centroids = zeros(K, n);
+centroids = zeros(K, n);%注意这里的n
 
 
 % ====================== YOUR CODE HERE ======================
@@ -25,9 +25,9 @@ centroids = zeros(K, n);
 %
 % Note: You can use a for-loop over the centroids to compute this.
 %
-
+% 这里使用的是FOR循环来操作
 for i=1:K
-       centroids(i,:) =  mean( X( find(idx==i) , :) );   % 
+       centroids(i,:) =  mean( X( find(idx==i) , :) );   % 这里的表达式很精炼
 end
 
 

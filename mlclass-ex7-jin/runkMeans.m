@@ -28,10 +28,11 @@ end
 [m n] = size(X);
 K = size(initial_centroids, 1);
 centroids = initial_centroids;
-previous_centroids = centroids;
+previous_centroids = centroids;%注意这里的 ‘缓存’，这个主要是为了绘制图形
 idx = zeros(m, 1);
 
 % Run K-Means
+% max_iters次迭代
 for i=1:max_iters
     
     % Output progress
@@ -41,7 +42,7 @@ for i=1:max_iters
     end
     
     % For each example in X, assign it to the closest centroid
-    idx = findClosestCentroids(X, centroids);
+    idx = findClosestCentroids(X, centroids);%查找最近聚类点
     
     % Optionally, plot progress here
     if plot_progress

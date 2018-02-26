@@ -110,7 +110,8 @@ fprintf('\nRunning K-Means clustering on pixels from an image.\n\n');
 
 %  Load an image of a bird
 % 存在数据类型转换
-A = double(imread('bird_small.png'));
+% A = double(imread('bird_small.png'));
+A = double(imread('temptest.png'));
 
 % If imread does not work for you, you can try instead
 %   load ('bird_small.mat');

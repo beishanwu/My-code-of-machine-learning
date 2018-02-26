@@ -19,9 +19,9 @@ S = zeros(n);
 % Note: When computing the covariance matrix, remember to divide by m (the
 %       number of examples).
 %
-
-  Sigma = 1/m * X'* X;
-  [U, S, V] = svd(Sigma);
+% 这就是PCA的公式
+  Sigma = 1/m * X'* X;%这是协方差矩阵
+  [U, S, V] = svd(Sigma);%这是计算特征值
 
 % =========================================================================
 
